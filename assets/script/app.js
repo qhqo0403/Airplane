@@ -81,7 +81,7 @@ class RockValue {
 
   checkRockHit() {
     for (let r = 0; r < rockList.length; r++){
-      if ((this.y + rock.height) === playerX) {
+      if (this.y === playerX || this.y === playerY) {
         gameover = true;
       }
     }
@@ -128,7 +128,7 @@ class BulletValue{
         score++;
         this.alive = false;
         enemyList.splice(c, 1);
-        console.log(score);
+        //console.log(score);
       }
     }
   }
@@ -137,7 +137,7 @@ class BulletValue{
 const createBullet = () => {
   let shoot = new BulletValue();
   shoot.init();
-  console.log(bulletList);
+  //console.log(bulletList);
 }
 
 const keyDownCheck = (evt) => {
@@ -191,10 +191,10 @@ const Move = () => {
   for (let n = 0; n < enemyList.length; n++) {
     enemyList[n].y += 2;
   }
-
+  console.log(playerX, playerY);
   for (let c = 0; c < rockList.length; c++) {
     rockList[c].y += 1;
-    /* rockList[c].checkRockHit(); */
+    rockList[c].checkRockHit();
   }
 }
 
