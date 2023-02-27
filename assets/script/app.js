@@ -9,6 +9,7 @@ let player, bullet, enemy, rock;
 let playerX = (x / 2) - 24;
 let playerY = canvas.height - 58;
 let score = 0;
+let gameover = false;
 
 let left = false;
 let right = false;
@@ -36,20 +37,20 @@ const loadImg = () => {
 const render = () => {
   ctx.clearRect(0, 0, x, y);
   ctx.drawImage(player, playerX, playerY);
-
+  
   for (let i = 0; i < bulletList.length; i++) {
     if (bulletList[i].alive){
       ctx.drawImage(bullet, bulletList[i].x, bulletList[i].y);
     }
   }
-
+  
   for (let k = 0; k < enemyList.length; k++){
     ctx.drawImage(enemy, enemyList[k].x, enemyList[k].y);
   }
 
-/*   for (let r = 0; r < enemyList.length; r++){
+  for (let r = 0; r < rockList.length; r++) {
     ctx.drawImage(rock, rockList[r].x, rockList[r].y);
-  } */
+  }
 }
 
 const generateX = (img) => {
@@ -66,26 +67,41 @@ const generateX = (img) => {
   return num;
 }
 
+
 class RockValue {
   x = 0;
   y = 0;
-
+  
   init() {
-    this.x = 100;
-    this.y = 100;
+    this.x = generateX(rock);
+    this.y = -rock.height;
     
     rockList.push(this);
   }
+
+  checkRockHit() {
+    for (let r = 0; r < rockList.length; r++){
+      if ((this.y + rock.height) === playerX) {
+        gameover = true;
+      }
+    }
+  }
 }
 
-
+const createRock = () => {
+  const interval = setInterval( function() {
+    let eachRock = new RockValue();
+    eachRock.init();
+  }, 3000);
+  console.log(rockList);
+}
 
 class EnemyValue {
   x = 0;
   y = 0;
   init() {
     this.x = generateX(enemy);
-    this.y = 0;
+    this.y = -enemy.height;
     enemyList.push(this);
   }
 }
@@ -176,15 +192,21 @@ const Move = () => {
     enemyList[n].y += 2;
   }
 
+  for (let c = 0; c < rockList.length; c++) {
+    rockList[c].y += 1;
+    /* rockList[c].checkRockHit(); */
+  }
 }
 
 const adjustRender = () => {
-  Move();
-  render();
-  requestAnimationFrame(adjustRender); 
+  if (!gameover) {
+    Move();
+    render();
+    requestAnimationFrame(adjustRender);
+  }
 }
 
+createRock();
 createEnemy();
 loadImg();
 adjustRender();
-
