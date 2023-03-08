@@ -1,3 +1,4 @@
+const startBtn = document.getElementById('start');
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = 500;
@@ -33,6 +34,11 @@ const loadImg = () => {
   rock = new Image();
   rock.src = "assets/img/rock.png";
 }
+
+startBtn.addEventListener('click', () => {
+  startBtn.classList.add('hide');
+  adjustRender();
+});
 
 const render = () => {
   ctx.clearRect(0, 0, x, y);
@@ -79,13 +85,13 @@ class RockValue {
     rockList.push(this);
   }
 
-  checkRockHit() {
+/*   checkRockHit() {
     for (let r = 0; r < rockList.length; r++){
       if (this.y === playerX || this.y === playerY) {
         gameover = true;
       }
     }
-  }
+  } */
 }
 
 const createRock = () => {
@@ -194,7 +200,7 @@ const Move = () => {
   console.log(playerX, playerY);
   for (let c = 0; c < rockList.length; c++) {
     rockList[c].y += 1;
-    rockList[c].checkRockHit();
+    /* rockList[c].checkRockHit(); */
   }
 }
 
@@ -209,4 +215,4 @@ const adjustRender = () => {
 createRock();
 createEnemy();
 loadImg();
-adjustRender();
+
