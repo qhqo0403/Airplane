@@ -35,11 +35,6 @@ const loadImg = () => {
   rock.src = "assets/img/rock.png";
 }
 
-startBtn.addEventListener('click', () => {
-  startBtn.classList.add('hide');
-  adjustRender();
-});
-
 const render = () => {
   ctx.clearRect(0, 0, x, y);
   ctx.drawImage(player, playerX, playerY);
@@ -212,7 +207,11 @@ const adjustRender = () => {
   }
 }
 
-createRock();
-createEnemy();
-loadImg();
+startBtn.addEventListener('click', () => {
+  startBtn.classList.add('hide');
+  createRock();
+  createEnemy();
+  loadImg();
+  adjustRender();
+});
 
